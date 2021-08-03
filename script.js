@@ -1,13 +1,18 @@
 const image = document.querySelector('img');
 const title = document.getElementById('title');
 const artist = document.getElementById('artist');
-
-
 const music = document.querySelector('audio');
+
+const progress = document.getElementById('progress');
+const progressContainer = document.getElementById('progress-container');
+
 
 const prevBtn = document.getElementById('prev');
 const playBtn = document.getElementById('play');
 const nextBtn = document.getElementById('next');
+
+const currentTimeEl = document.getElementById('current-time');
+const durationEl = document.getElementById('duration');
 
 // Music (Database)
 const songs = [
@@ -93,4 +98,43 @@ function nextSong() {
 prevBtn.addEventListener("click", prevSong)
 nextBtn.addEventListener("click", nextSong)
 
+
+
+
+function updateProgressBar(e) {
+    if (isPlaying) {
+        
+        const {currentTime, duration} = e.srcElement;
+        const percantageBar = currentTime / duration * 100
+        progress.style.width = `${percantageBar}%`;
+
+        // currentTimeElement and durationElement
+
+        // currentTimeEl
+        let minuteCurrentTime = Math.floor(currentTime / 60);
+        let secondCurrentTime = Math.floor(currentTime % 60);
+        
+        if (secondCurrentTime < 10) {
+            secondCurrentTime = `0${secondCurrentTime}`;
+        }
+        currentTimeEl.textContent = `${minuteCurrentTime}:${secondCurrentTime}`;
+        
+        // duration 
+        let minuteDurationTime = Math.floor(duration / 60);
+        let secondDurationTime = Math.floor(duration % 60);
+
+        if (secondDurationTime < 10) {
+            secondDurationTime = `0${secondDurationTime}`;
+        }
+
+        if (secondDurationTime) {
+            durationEl.textContent = `${minuteDurationTime}:${secondDurationTime}`;
+        }
+
+
+    }
+}
+
+
+music.addEventListener("timeupdate", updateProgressBar);
 
