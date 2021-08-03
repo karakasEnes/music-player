@@ -102,7 +102,7 @@ nextBtn.addEventListener("click", nextSong)
 
 
 function updateProgressBar(e) {
-    if (isPlaying) {
+    
         
         const {currentTime, duration} = e.srcElement;
         const percantageBar = currentTime / duration * 100
@@ -130,11 +130,21 @@ function updateProgressBar(e) {
         if (secondDurationTime) {
             durationEl.textContent = `${minuteDurationTime}:${secondDurationTime}`;
         }
-
-
-    }
+    
 }
-
-
 music.addEventListener("timeupdate", updateProgressBar);
 
+
+function setProgressBar(e) {
+    const width = this.clientWidth; // total horizontal progress bar
+    const clickX = e.offsetX; // user clicked horizontal place
+
+    const {duration} = music;
+    const currentTimerCalculator = clickX / width * duration;
+    music.currentTime = currentTimerCalculator;
+    
+    // progress.style.width = `${ clickX / width * 100 }%`;
+
+}
+
+progressContainer.addEventListener("click", setProgressBar);
